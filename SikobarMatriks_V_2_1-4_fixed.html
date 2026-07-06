@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<title>Sikobar Matriks — Sinau Kopi Bareng</title>
+<meta name="theme-color" content="#0F1629">
+<meta name="color-scheme" content="light">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sikobar Matriks">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  /* ============================================================
+     TOKEN SYSTEM — Sikobar Matriks (Bold Navy Edition)
+     Color : deep-navy #0A0F22, cloud-white #F4F6FB,
+             electric-gold #E0A526, cobalt-blue #14266B,
+             teal-accent #086165, slate-line #C2CCE0
+     Type  : Fraunces (display) / JetBrains Mono (measurements) / Inter (UI copy)
+     ============================================================ */
+
+  :root {
+    --ink: #0A0F22;
+    --paper: #F4F6FB;
+    --paper-raised: #FFFFFF;
+    --amber: #E0A526;
+    --amber-deep: #8A5A0E;
+    --soil: #14266B;
+    --bean-green: #086165;
+    --hairline: #C2CCE0;
+    --hairline-strong: #9FAFD0;
+    --shadow-soft: 0 1px 2px rgba(10,15,34,0.08), 0 8px 24px rgba(10,15,34,0.14);
+    --radius: 4px;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  html, body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    overscroll-behavior-y: contain;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: max(48px, env(safe-area-inset-top) + 24px) max(20px, env(safe-area-inset-right) + 12px) max(80px, env(safe-area-inset-bottom) + 40px) max(20px, env(safe-area-inset-left) + 12px);
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(20,38,107,0.07) 0%, transparent 38%),
+      radial-gradient(circle at 92% 88%, rgba(8,97,101,0.06) 0%, transparent 42%);
+  }
+
+  .shell { max-width: 880px; margin: 0 auto; }
+
+  /* ---------- Masthead ---------- */
+
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--hairline-strong);
+    margin-bottom: 36px;
+  }
+
+  .mark {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mark-glyph {
+    width: 44px; height: 44px;
+    flex-shrink: 0;
+  }
+
+  .brand-title {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .brand-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--soil);
+    margin-top: 5px;
+  }
+
+  .method-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--bean-green);
+    border: 1px solid var(--bean-green);
+    border-radius: 100px;
+    padding: 5px 12px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  /* ---------- Layout: control deck + readout ---------- */
+
+  .deck {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  @media (min-width: 760px) {
+    .deck { grid-template-columns: 360px minmax(0, 1fr); align-items: start; }
+  }
+
+  .panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* ---------- Control panel ---------- */
+
+  .control-panel { padding: 26px 26px 24px; }
+
+  .panel-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field:last-of-type { margin-bottom: 0; }
+
+  .field-label {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 7px;
+  }
+
+  .field-index {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--hairline-strong);
+    color: #6B85B8;
+  }
+
+  .field-hint {
+    font-size: 11.5px;
+    color: #8A8275;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ---------- Gramasi widget ---------- */
+
+  .gramasi-wrap { display: flex; flex-direction: column; gap: 8px; }
+
+  .gramasi-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .gramasi-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 14px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--hairline-strong);
+    border-radius: var(--radius);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: border-color 0.13s, background 0.13s, color 0.13s, box-shadow 0.13s, transform 0.08s;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gramasi-chip:hover {
+      border-color: var(--soil);
+      color: var(--soil);
+      background: rgba(20,38,107,0.05);
+    }
+  }
+
+  .gramasi-chip:active {
+    transform: scale(0.96);
+    border-color: var(--soil);
+    background: rgba(20,38,107,0.08);
+  }
+
+  .gramasi-chip.active {
+    background: var(--soil);
+    border-color: var(--soil);
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(20,38,107,0.25);
+  }
+
+  .gramasi-chip.gramasi-custom-toggle {
+    border-style: dashed;
+    color: var(--amber-deep);
+    border-color: var(--amber);
+    background: rgba(224,165,38,0.06);
+    font-size: 15px;
+    padding: 11px 13px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gramasi-chip.gramasi-custom-toggle:hover {
+      background: rgba(224,165,38,0.14);
+      border-color: var(--amber-deep);
+    }
+  }
+
+  .gramasi-chip.gramasi-custom-toggle:active {
+    background: rgba(224,165,38,0.2);
+    border-color: var(--amber-deep);
+  }
+
+  .gramasi-chip.gramasi-custom-toggle.active {
+    background: rgba(224,165,38,0.15);
+    border-color: var(--amber-deep);
+    border-style: solid;
+    color: var(--amber-deep);
+    box-shadow: 0 2px 8px rgba(224,165,38,0.2);
+  }
+
+  .gramasi-custom-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: fadeSlideIn 0.18s ease;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .gramasi-number-input {
+    width: 104px;
+    border: 1.5px solid var(--amber);
+    border-radius: var(--radius);
+    background: var(--paper);
+    padding: 11px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    -moz-appearance: textfield;
+    touch-action: manipulation;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .gramasi-number-input::-webkit-outer-spin-button,
+  .gramasi-number-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  .gramasi-number-input:focus-visible {
+    outline: none;
+    border-color: var(--amber-deep);
+    box-shadow: 0 0 0 3px rgba(224,165,38,0.2);
+  }
+
+  .gramasi-unit-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--amber-deep);
+    letter-spacing: 0.06em;
+  }
+
+  .gramasi-custom-cancel {
+    background: none;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    cursor: pointer;
+    touch-action: manipulation;
+    color: #5C72A0;
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.13s, color 0.13s, background 0.13s;
+    flex-shrink: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gramasi-custom-cancel:hover { border-color: #4A5E82; color: #0F1629; }
+  }
+
+  .gramasi-custom-cancel:active { background: rgba(15,22,41,0.08); border-color: #4A5E82; }
+
+  /* ---------- end Gramasi widget ---------- */
+
+  select, input[type="text"] {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    min-height: 46px;
+    touch-action: manipulation;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 13px 38px 13px 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2314266B' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  input[type="text"] {
+    padding: 13px 14px;
+    -webkit-appearance: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    select:hover, input[type="text"]:hover { border-color: var(--soil); }
+  }
+
+  select:focus-visible, input[type="text"]:focus-visible {
+    outline: none;
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(181,101,29,0.16);
+  }
+
+  select:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .generate-btn {
+    width: 100%;
+    margin-top: 22px;
+    padding: 13px 16px;
+    background: linear-gradient(135deg, var(--soil) 0%, #152D70 100%);
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 12px rgba(20,38,107,0.25);
+    position: relative;
+    overflow: hidden;
+    min-height: 46px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .generate-btn:hover:not(:disabled) { background: linear-gradient(135deg, var(--amber-deep) 0%, #E0A526 100%); box-shadow: 0 4px 16px rgba(224,165,38,0.35); }
+  }
+  .generate-btn:active:not(:disabled) { transform: translateY(1px); }
+  .generate-btn:disabled { cursor: not-allowed; opacity: 0.85; }
+
+  .generate-btn svg { flex-shrink: 0; }
+
+  .generate-btn:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  /* Loading state styles */
+  .generate-btn .btn-normal { display: flex; align-items: center; gap: 9px; }
+  .generate-btn .btn-loading { display: none; align-items: center; gap: 10px; }
+
+  .generate-btn.is-loading .btn-normal { display: none; }
+  .generate-btn.is-loading .btn-loading { display: flex; }
+
+  @keyframes spinRing {
+    to { transform: rotate(360deg); }
+  }
+
+  .btn-spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #FFFFFF;
+    border-radius: 50%;
+    animation: spinRing 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  /* Typewriter loading text in readout */
+  #loadingOverlay {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 360px;
+    gap: 22px;
+    text-align: center;
+  }
+
+  #loadingOverlay.visible { display: flex; }
+
+  .loading-brew-icon {
+    font-size: 36px;
+    animation: brewBounce 1s ease-in-out infinite;
+  }
+
+  @keyframes brewBounce {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%       { transform: translateY(-7px) rotate(3deg); }
+  }
+
+  .loading-typewriter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--soil);
+    letter-spacing: 0.06em;
+    min-height: 20px;
+  }
+
+  .loading-cursor {
+    display: inline-block;
+    width: 2px; height: 14px;
+    background: var(--amber);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blinkCursor 0.65s step-end infinite;
+  }
+
+  @keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  .loading-bar-wrap {
+    width: 180px;
+    height: 3px;
+    background: var(--hairline);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .loading-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--soil), var(--amber));
+    animation: loadingProgress 1.8s ease-in-out infinite;
+    transform-origin: left;
+  }
+
+  @keyframes loadingProgress {
+    0%   { width: 0%; opacity: 1; }
+    70%  { width: 85%; opacity: 1; }
+    90%  { width: 85%; opacity: 0.6; }
+    100% { width: 0%; opacity: 0; }
+  }
+
+  .loading-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5C72A0;
+    margin-top: 4px;
+  }
+
+  /* ---------- Readout (results) ---------- */
+
+  .readout { padding: 26px 28px 28px; min-height: 240px; }
+
+  .readout-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 360px;
+    color: #5C72A0;
+    gap: 14px;
+  }
+
+  .readout-empty svg { opacity: 0.5; }
+
+  .readout-empty p {
+    font-size: 13px;
+    max-width: 280px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .readout-empty .emphasis {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--soil);
+  }
+
+  /* ---------- Result header row ---------- */
+
+  .result-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .result-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .result-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bean-green);
+    background: rgba(58,107,82,0.08);
+    border-radius: 100px;
+    padding: 4px 10px;
+  }
+
+  /* ---------- Dripper category note — LUXURY EDITION ---------- */
+
+  @keyframes shimmerSlide {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes noteReveal {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .dripper-note {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #14266B;
+    background: linear-gradient(135deg, rgba(20,38,107,0.14) 0%, rgba(20,38,107,0.05) 100%);
+    border: 1px solid rgba(20,38,107,0.32);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px 14px 20px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    animation: noteReveal 0.35s ease both;
+  }
+
+  /* Luxury left accent bar */
+  .dripper-note::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--soil) 0%, var(--amber) 100%);
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* Shimmer sweep overlay */
+  .dripper-note::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg,
+      transparent 30%,
+      rgba(255,255,255,0.22) 50%,
+      transparent 70%);
+    background-size: 200% 100%;
+    animation: shimmerSlide 3.5s ease infinite;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* Category icon wrapper */
+  .dripper-note-icon {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(20,38,107,0.18);
+    border: 1px solid rgba(20,38,107,0.3);
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  /* Category label chip */
+  .dripper-note-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* Flat Bottom variant */
+  .dripper-note[data-category="Flat Bottom"] {
+    color: #0F1B52;
+    background: linear-gradient(135deg, rgba(20,38,107,0.16) 0%, rgba(20,38,107,0.05) 100%);
+    border-color: rgba(20,38,107,0.38);
+  }
+  .dripper-note[data-category="Flat Bottom"]::before {
+    background: linear-gradient(180deg, #14266B 0%, #3F5FA8 100%);
+  }
+  .dripper-note[data-category="Flat Bottom"] .dripper-note-icon {
+    background: rgba(20,38,107,0.2);
+    border-color: rgba(20,38,107,0.34);
+  }
+
+  /* Cone variant */
+  .dripper-note[data-category="Cone"] {
+    color: #5E4400;
+    background: linear-gradient(135deg, rgba(224,165,38,0.20) 0%, rgba(224,165,38,0.07) 100%);
+    border-color: rgba(224,165,38,0.45);
+  }
+  .dripper-note[data-category="Cone"]::before {
+    background: linear-gradient(180deg, var(--amber-deep) 0%, var(--amber) 100%);
+  }
+  .dripper-note[data-category="Cone"] .dripper-note-icon {
+    background: rgba(224,165,38,0.22);
+    border-color: rgba(224,165,38,0.4);
+  }
+
+  /* Immersion variant */
+  .dripper-note[data-category="Immersion"] {
+    color: #053C3E;
+    background: linear-gradient(135deg, rgba(8,97,101,0.17) 0%, rgba(8,97,101,0.05) 100%);
+    border-color: rgba(8,97,101,0.4);
+  }
+  .dripper-note[data-category="Immersion"]::before {
+    background: linear-gradient(180deg, #086165 0%, #0FAFB5 100%);
+  }
+  .dripper-note[data-category="Immersion"] .dripper-note-icon {
+    background: rgba(8,97,101,0.2);
+    border-color: rgba(8,97,101,0.36);
+  }
+
+  /* Gravity variant */
+  .dripper-note[data-category="Gravity"] {
+    color: #1F3768;
+    background: linear-gradient(135deg, rgba(63,95,168,0.17) 0%, rgba(63,95,168,0.05) 100%);
+    border-color: rgba(63,95,168,0.42);
+  }
+  .dripper-note[data-category="Gravity"]::before {
+    background: linear-gradient(180deg, #3F5FA8 0%, #7299DD 100%);
+  }
+  .dripper-note[data-category="Gravity"] .dripper-note-icon {
+    background: rgba(63,95,168,0.2);
+    border-color: rgba(63,95,168,0.36);
+  }
+
+  /* Water-note reuses the same visual language as dripper-note, with its own
+     data-watertier namespace (TDS tier) so the two never collide on the same selector. */
+  .dripper-note[data-watertier="Murni"] {
+    color: #053C3E;
+    background: linear-gradient(135deg, rgba(8,97,101,0.16) 0%, rgba(8,97,101,0.05) 100%);
+    border-color: rgba(8,97,101,0.38);
+  }
+  .dripper-note[data-watertier="Murni"]::before {
+    background: linear-gradient(180deg, #086165 0%, #0FAFB5 100%);
+  }
+  .dripper-note[data-watertier="Murni"] .dripper-note-icon {
+    background: rgba(8,97,101,0.2);
+    border-color: rgba(8,97,101,0.34);
+  }
+
+  .dripper-note[data-watertier="Seimbang"] {
+    color: #0F1B52;
+    background: linear-gradient(135deg, rgba(20,38,107,0.16) 0%, rgba(20,38,107,0.05) 100%);
+    border-color: rgba(20,38,107,0.38);
+  }
+  .dripper-note[data-watertier="Seimbang"]::before {
+    background: linear-gradient(180deg, #14266B 0%, #3F5FA8 100%);
+  }
+  .dripper-note[data-watertier="Seimbang"] .dripper-note-icon {
+    background: rgba(20,38,107,0.2);
+    border-color: rgba(20,38,107,0.34);
+  }
+
+  .dripper-note[data-watertier="Tinggi"] {
+    color: #5E4400;
+    background: linear-gradient(135deg, rgba(224,165,38,0.20) 0%, rgba(224,165,38,0.07) 100%);
+    border-color: rgba(224,165,38,0.45);
+  }
+  .dripper-note[data-watertier="Tinggi"]::before {
+    background: linear-gradient(180deg, var(--amber-deep) 0%, var(--amber) 100%);
+  }
+  .dripper-note[data-watertier="Tinggi"] .dripper-note-icon {
+    background: rgba(224,165,38,0.22);
+    border-color: rgba(224,165,38,0.4);
+  }
+
+  /* ---------- Metric grid ---------- */
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  @media (min-width: 540px) {
+    .metric-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .metric-cell {
+    background: var(--paper-raised);
+    padding: 16px 14px;
+    position: relative;
+  }
+
+  .metric-cell::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--soil), var(--amber));
+    opacity: 0.95;
+  }
+
+  .metric-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5C72A0;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .metric-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .metric-value .unit {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--soil);
+    margin-left: 2px;
+  }
+
+  /* ---------- Pour timeline (signature element) ---------- */
+
+  .timeline-section { margin-top: 4px; }
+
+  .timeline-rail {
+    position: relative;
+    height: 10px;
+    border-radius: 100px;
+    background: var(--hairline);
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border: 1px solid var(--hairline-strong);
+  }
+
+  .timeline-segment {
+    height: 100%;
+    background: var(--amber);
+    border-right: 1px solid rgba(255,253,249,0.5);
+    transition: width 0.4s ease;
+  }
+
+  .timeline-segment:nth-child(odd) { background: var(--amber); }
+  .timeline-segment:nth-child(even) { background: var(--soil); }
+  .timeline-segment:last-child { border-right: none; }
+
+  .timeline-marks {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #5C72A0;
+    margin-bottom: 26px;
+    padding: 0 1px;
+  }
+
+  /* ---------- Step list ---------- */
+
+  .step-list { list-style: none; margin: 0; padding: 0; }
+
+  .step-item {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 14px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .step-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .step-marker {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--soil);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--soil);
+    margin-top: 1px;
+  }
+
+  .step-body { min-width: 0; }
+
+  .step-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .step-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--bean-green);
+  }
+
+  .step-desc {
+    font-size: 12.5px;
+    color: #4A5E82;
+    line-height: 1.5;
+  }
+
+  .step-amount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+    align-self: center;
+  }
+
+  .step-amount-add {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--soil);
+    background: rgba(20,38,107,0.12);
+    border-radius: var(--radius);
+    padding: 5px 10px;
+    white-space: nowrap;
+    border: 1px solid rgba(20,38,107,0.26);
+  }
+
+  .step-amount-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--bean-green);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Brew Timer ---------- */
+
+  .brew-timer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--paper);
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 16px;
+  }
+
+  .brew-timer-readout {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .brew-timer-clock {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .brew-timer-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--bean-green);
+    letter-spacing: 0.02em;
+  }
+
+  .brew-timer-poured {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: #5C72A0;
+    letter-spacing: 0.02em;
+    margin-top: 2px;
+  }
+
+  .brew-timer-poured b { color: var(--soil); font-size: 12.5px; }
+
+  .brew-timer-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background: var(--soil);
+    border: none;
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+
+  .brew-timer-btn:active { transform: scale(0.97); }
+  .brew-timer-btn.is-running { background: var(--amber-deep); }
+  .brew-timer-btn.is-done { background: var(--bean-green); }
+
+  .step-item.is-active {
+    background: rgba(224,165,38,0.08);
+    border-radius: var(--radius);
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 -10px;
+    border-bottom-color: transparent;
+  }
+
+  .step-item.is-active .step-marker {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #FFFFFF;
+  }
+
+  .step-item.is-done .step-marker {
+    background: var(--bean-green);
+    border-color: var(--bean-green);
+    color: #FFFFFF;
+  }
+
+  .step-item.is-done .step-amount-add {
+    opacity: 0.55;
+  }
+
+  /* ---------- Footnote ---------- */
+
+  .footnote {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: #6B85B8;
+    margin-top: 32px;
+  }
+
+  /* ---------- Responsive tightening ---------- */
+
+  @media (max-width: 480px) {
+    body { padding: max(28px, env(safe-area-inset-top) + 16px) max(14px, env(safe-area-inset-right) + 10px) max(56px, env(safe-area-inset-bottom) + 32px) max(14px, env(safe-area-inset-left) + 10px); }
+    .control-panel, .readout { padding: 20px 18px; }
+    .masthead { gap: 10px 18px; margin-bottom: 28px; }
+    .brand-title { font-size: 20px; white-space: nowrap; }
+    .brand-sub { font-size: 9.5px; white-space: nowrap; }
+    .mark-glyph { width: 36px; height: 36px; }
+    .metric-value { font-size: 18px; }
+    .step-item { grid-template-columns: 24px 1fr; }
+    .step-amount { grid-column: 2; justify-self: start; margin-top: 4px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <header class="masthead">
+    <div class="mark">
+      <svg class="mark-glyph" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 16h22l-1.6 14.2A4 4 0 0 1 26.4 34H17.6a4 4 0 0 1-3.98-3.8L12 16z" stroke="#1C1B19" stroke-width="1.6" fill="none"/>
+        <path d="M32 18h2.5a3.5 3.5 0 0 1 0 7H31.8" stroke="#B5651D" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <path d="M16 11.5c0-1.5 1.3-1.8 1.3-3.2M21 11.5c0-1.5 1.3-1.8 1.3-3.2M26 11.5c0-1.5 1.3-1.8 1.3-3.2" stroke="#6B4226" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="brand-title">Sikobar Matriks</div>
+        <div class="brand-sub">Sinau Kopi Bareng · Pour&nbsp;Over</div>
+      </div>
+    </div>
+    <span class="method-tag">Metode 4:6 — Modifikasi</span>
+  </header>
+
+  <div class="deck">
+
+    <!-- ============ CONTROL PANEL ============ -->
+    <section class="panel control-panel">
+      <p class="panel-eyebrow">Parameter Seduh</p>
+
+      <div class="field">
+        <label class="field-label" for="gramasi"><span class="field-index">01</span> Jumlah Gramasi Kopi</label>
+        <div class="gramasi-wrap">
+          <div class="gramasi-presets" id="gramasiPresets">
+            <button type="button" class="gramasi-chip" data-gram="10">10g</button>
+            <button type="button" class="gramasi-chip" data-gram="12">12g</button>
+            <button type="button" class="gramasi-chip active" data-gram="15">15g</button>
+            <button type="button" class="gramasi-chip" data-gram="18">18g</button>
+            <button type="button" class="gramasi-chip" data-gram="20">20g</button>
+            <button type="button" class="gramasi-chip gramasi-custom-toggle" id="gramasiCustomToggle" title="Ketik gramasi sendiri">✎</button>
+          </div>
+          <div class="gramasi-custom-row" id="gramasiCustomRow" style="display:none;">
+            <input type="number" id="gramasiCustomInput" class="gramasi-number-input" min="5" max="60" step="0.5" inputmode="decimal" placeholder="mis. 17">
+            <span class="gramasi-unit-label">gram</span>
+            <button type="button" class="gramasi-custom-cancel" id="gramasiCustomCancel" aria-label="Batal isi gramasi custom">✕</button>
+          </div>
+          <input type="hidden" id="gramasi" value="15">
+        </div>
+        <p class="field-hint" id="gramasiHint">Rasio seduh 1:15 — air dihitung otomatis dari gramasi kopi.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="origin"><span class="field-index">02</span> Asal Daerah (Opsional)</label>
+        <input type="text" id="origin" autocapitalize="words" autocomplete="off" autocorrect="off" enterkeyhint="done" placeholder="cth. Aceh Gayo, Toraja, hasil kebun sendiri...">
+        <p class="field-hint">Bebas isi nama daerah/kebun untuk catatan pribadi pada resep.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="acidity"><span class="field-index">03</span> Tingkat Keasaman Biji (Acidity)</label>
+        <select id="acidity">
+          <option value="">-- Pilih Tingkat Keasaman --</option>
+          <option value="Low">Low (Cenderung Earthy / Tidak Asam)</option>
+          <option value="Medium">Medium (Asam Lembut Seimbang)</option>
+          <option value="High">High (Asam Cerah / Fruity)</option>
+        </select>
+        <p class="field-hint">Perkiraan Anda sendiri terhadap karakter biji — menentukan koreksi suhu &amp; grinder.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="pascapanen"><span class="field-index">04</span> Metode Pasca Panen</label>
+        <select id="pascapanen">
+          <option value="Full Wash">Full Wash (Proses Basah)</option>
+          <option value="Natural">Natural Process (Proses Kering)</option>
+          <option value="Semi Wash">Semi Wash (Wet Hulled)</option>
+          <option value="Honey">Honey Process (Pulped Natural)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="dripper"><span class="field-index">05</span> Alat Seduh (Dripper)</label>
+        <select id="dripper"></select>
+        <p class="field-hint" id="dripperHint">Bentuk dasar dripper menentukan struktur tuangan yang direkomendasikan.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="grinder"><span class="field-index">06</span> Alat Giling (Grinder)</label>
+        <select id="grinder"></select>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="rasa"><span class="field-index">07</span> Target Profil Rasa</label>
+        <select id="rasa">
+          <option value="Balanced">Balanced (Rasa Seimbang)</option>
+          <option value="More Sweet">More Sweet (Manis Dominan)</option>
+          <option value="More Acid">More Acid (Asam Segar)</option>
+        </select>
+        <p class="field-hint">Profil ini menentukan rasio blooming, suhu air, dan struktur tuangan akhir.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="airMerk"><span class="field-index">08</span> Merk Air Seduh</label>
+        <select id="airMerk"></select>
+        <p class="field-hint" id="airMerkHint">Kandungan mineral (TDS) air menentukan seberapa maksimal ekstraksi rasa kopi — bukan cuma soal biji &amp; alat.</p>
+      </div>
+
+      <button class="generate-btn" id="generateBtn" onclick="generateResep()">
+        <span class="btn-normal">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M7 1v3.2M7 9.8V13M1 7h3.2M9.8 7H13M2.8 2.8l2.2 2.2M9 9l2.2 2.2M2.8 11.2L5 9M9 5l2.2-2.2" stroke="#FFFFFF" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          Sruputss Kingsss
+        </span>
+        <span class="btn-loading">
+          <span class="btn-spinner"></span>
+          Menyeduh…
+        </span>
+      </button>
+    </section>
+
+    <!-- ============ READOUT ============ -->
+    <section class="panel readout">
+
+      <!-- Loading overlay (typewriter) -->
+      <div id="loadingOverlay">
+        <div class="loading-brew-icon">☕</div>
+        <div>
+          <div class="loading-typewriter" id="loadingTypeText"></div>
+          <div class="loading-sub" id="loadingSub">menghitung matriks seduh…</div>
+        </div>
+        <div class="loading-bar-wrap"><div class="loading-bar-fill"></div></div>
+      </div>
+
+      <div id="readoutEmpty" class="readout-empty">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">
+          <circle cx="23" cy="23" r="20" stroke="#6B85B8" stroke-width="1.4" stroke-dasharray="3 4"/>
+          <path d="M16 20h14M16 24h14M16 28h9" stroke="#6B85B8" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <p><span class="emphasis">Belum ada resep</span><br>Lengkapi parameter di samping, lalu jalankan komputasi untuk melihat matriks tuangan presisi.</p>
+      </div>
+
+      <div id="resultCard" style="display:none;">
+
+        <div class="result-header-row">
+          <span class="result-title">Hasil Matriks AI</span>
+          <span class="result-badge">Komputasi Lokal</span>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric-cell">
+            <span class="metric-label">Total Air Dituang</span>
+            <span class="metric-value" id="outTotalAir">—</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-label">Estimasi Yield</span>
+            <span class="metric-value" id="outYield">—</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-label">Setelan Grinder</span>
+            <span class="metric-value" id="outGrinder">—</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-label">Suhu Air Ideal</span>
+            <span class="metric-value" id="outSuhu">—</span>
+          </div>
+        </div>
+
+        <div class="timeline-section">
+          <div class="result-header-row" style="margin-bottom:14px; padding-bottom:10px;">
+            <span class="result-title" style="font-size:14.5px;">Langkah Penyeduhan</span>
+          </div>
+
+          <div class="dripper-note" id="dripperNoteBox">
+            <div class="dripper-note-icon" id="dripperNoteIcon">☕</div>
+            <div>
+              <span class="dripper-note-label" id="dripperCategoryLabel"></span>
+              <span id="dripperCategoryNote"></span>
+            </div>
+          </div>
+
+          <div class="dripper-note" id="airNoteBox">
+            <div class="dripper-note-icon" id="airNoteIcon">💧</div>
+            <div>
+              <span class="dripper-note-label" id="airNoteLabel"></span>
+              <span id="airNoteText"></span>
+            </div>
+          </div>
+
+          <div class="timeline-rail" id="timelineRail"></div>
+          <div class="timeline-marks"><span>00:00</span><span id="timelineEnd">—</span></div>
+
+          <div class="brew-timer-bar">
+            <div class="brew-timer-readout">
+              <span class="brew-timer-clock" id="brewClock">00:00</span>
+              <span class="brew-timer-sub" id="brewSub">Tekan mulai saat tuangan pertama</span>
+              <span class="brew-timer-poured" id="brewPoured">Air dituang: <b>0</b> ml</span>
+            </div>
+            <button type="button" class="brew-timer-btn" id="brewTimerBtn" onclick="toggleBrewTimer()">
+              <span id="brewTimerBtnLabel">▶ Mulai Seduh</span>
+            </button>
+          </div>
+
+          <ol class="step-list" id="stepList"></ol>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <p class="footnote">Sikobar Matriks · seluruh perhitungan berjalan lokal di perangkat Anda, tanpa server</p>
+
+</div>
+
+<script>
+// 1. DATABASE DRIPPER (30 ALAT SEDUH, DIKELOMPOKKAN PER KARAKTER FISIK)
+// category menentukan logika koreksi: "Cone" | "Flat Bottom" | "Immersion" | "Gravity"
+const dbDripper = [
+  { "name": "April Brewer", "type": "Flat Bottom Dripper", "category": "Flat Bottom" },
+  { "name": "Blue Bottle Dripper", "type": "Flat Bottom Dripper", "category": "Flat Bottom" },
+  { "name": "Brewista Gem Series", "type": "Gem Series Dripper", "category": "Flat Bottom" },
+  { "name": "Brewista Tornado", "type": "Tornado Duo Dripper", "category": "Flat Bottom" },
+  { "name": "Cafec Deep 27", "type": "Deep 27 Flower Dripper", "category": "Cone" },
+  { "name": "Cafec Flower Dripper", "type": "Flower Dripper (Cone)", "category": "Cone" },
+  { "name": "Chemex", "type": "Pour-over Glass Coffeemaker", "category": "Flat Bottom" },
+  { "name": "Clever Dripper", "type": "Immersion Dripper", "category": "Immersion" },
+  { "name": "Fellow Stagg [X]", "type": "Stagg [X] Flat Bottom", "category": "Flat Bottom" },
+  { "name": "Hario Mugen", "type": "V60 Mugen (One Pour)", "category": "Cone" },
+  { "name": "Hario Switch", "type": "Immersion Switch", "category": "Immersion" },
+  { "name": "Hario V60", "type": "V60 Plastic/Ceramic/Glass", "category": "Cone" },
+  { "name": "Hero Variable Dripper", "type": "Variable Flow Dripper", "category": "Cone" },
+  { "name": "Kalita 102", "type": "Trapezoid Dripper", "category": "Cone" },
+  { "name": "Kalita Wave 155 / 185", "type": "Wave Flat Bottom", "category": "Flat Bottom" },
+  { "name": "Kono Meimon", "type": "Meimon Dripper", "category": "Cone" },
+  { "name": "Latina Cono", "type": "Cono Dripper", "category": "Cone" },
+  { "name": "Latina Volcano", "type": "Volcano Dripper", "category": "Flat Bottom" },
+  { "name": "Loveramics", "type": "Brewers (3 Flow Types)", "category": "Cone" },
+  { "name": "Melitta", "type": "Aromaboy / 1x2 Trapezoid", "category": "Flat Bottom" },
+  { "name": "MHW-3Bomber Elf", "type": "Elf Dripper", "category": "Cone" },
+  { "name": "Orea V3 / V4", "type": "Flat Bottom Brewer", "category": "Flat Bottom" },
+  { "name": "Origami Dripper (S/M)", "type": "Folded Cone Dripper", "category": "Cone" },
+  { "name": "Suji V60 Dripper", "type": "Pourover Dripper", "category": "Cone" },
+  { "name": "Suji Wave Dripper", "type": "Wave Dripper", "category": "Flat Bottom" },
+  { "name": "The Gabi Master A/B", "type": "Master A/B Dripper", "category": "Cone" },
+  { "name": "Timemore B75", "type": "B75 Flat Bottom", "category": "Flat Bottom" },
+  { "name": "Timemore Crystal Eye", "type": "Crystal Eye V60", "category": "Flat Bottom" },
+  { "name": "Torch Mountain", "type": "Mountain Dripper", "category": "Cone" },
+  { "name": "Vietnam Drip", "type": "Gravity Insert Dripper", "category": "Gravity" }
+];
+
+// Catatan kategori untuk ditampilkan ke pengguna sebagai konteks koreksi
+const dripperCategoryNote = {
+  "Cone": "Aliran cepat & terkonsentrasi di tengah filter — suhu sedikit diturunkan agar tidak over-extract, gilingan sedikit lebih kasar.",
+  "Flat Bottom": "Ekstraksi merata di seluruh dasar filter — suhu sedikit dinaikkan untuk bantu kelarutan, gilingan dibiarkan standar.",
+  "Immersion": "Kopi terendam penuh sebelum dilepas — struktur tuangan diganti total dari pulse-pour 4:6 menjadi rendam-tahan-lepas.",
+  "Gravity": "Metode drip gravitasi sederhana, bukan pulse-pour bertahap — angka di bawah adalah estimasi 4:6, idealnya gunakan teknik continuous-pour."
+};
+
+// 2. DATABASE GRINDER (ANGKA PASTI MEDIAN V60)
+const dbGrinder = [
+  { "name": "1Zpresso J-Ultra", "unit": "Putaran", "base": 3 },
+  { "name": "1Zpresso K-Ultra", "unit": "Nomor", "base": 7 },
+  { "name": "1Zpresso Q Air / Q2", "unit": "Klik", "base": 18 },
+  { "name": "1Zpresso X-Pro / X-Ultra", "unit": "Putaran", "base": 1 },
+  { "name": "1Zpresso ZP6 Special", "unit": "Nomor", "base": 5 },
+  { "name": "Breville Smart Grinder Pro", "unit": "Setting", "base": 38 },
+  { "name": "Comandante C40 MK4", "unit": "Klik", "base": 21 },
+  { "name": "Comandante C60 Baracuda", "unit": "Klik", "base": 25 },
+  { "name": "Etzinger etz-I", "unit": "Angka", "base": 14 },
+  { "name": "Hario Canister (C-20)", "unit": "Notch", "base": 3 },
+  { "name": "Hario Mini Slim+", "unit": "Klik", "base": 9 },
+  { "name": "Hario Skerton Pro", "unit": "Notch", "base": 6 },
+  { "name": "Kingrinder K6", "unit": "Klik", "base": 75 },
+  { "name": "Kingrinder P0/P1/P2", "unit": "Klik", "base": 25 },
+  { "name": "Kinu M47", "unit": "Putaran", "base": 3 },
+  { "name": "Latina Sumba / Sumbawa", "unit": "Klik", "base": 9 },
+  { "name": "Latina Sumo", "unit": "Klik", "base": 18 },
+  { "name": "Mavo Phantox Pro", "unit": "Nomor", "base": 8 },
+  { "name": "Mazzer Omega", "unit": "Angka", "base": 7 },
+  { "name": "MHW-3BOMBER Blade R3", "unit": "Klik", "base": 110 },
+  { "name": "OE Lido 3 / OG", "unit": "Mark", "base": 8 },
+  { "name": "Pietro (Flat Burr)", "unit": "Angka", "base": 6 },
+  { "name": "Porlex Mini II", "unit": "Klik", "base": 8 },
+  { "name": "Starseeker Edge / Edge+", "unit": "Klik", "base": 60 },
+  { "name": "Timemore C2", "unit": "Klik", "base": 19 },
+  { "name": "Timemore C3", "unit": "Klik", "base": 16 },
+  { "name": "Timemore C3 ESP", "unit": "Klik", "base": 16 },
+  { "name": "Timemore C3 ESP Pro", "unit": "Putaran", "base": 2 },
+  { "name": "Timemore C5", "unit": "Klik", "base": 12 },
+  { "name": "Timemore C5 ESP PRO", "unit": "Klik", "base": 88 },
+  { "name": "Timemore Chestnut X", "unit": "Mayor", "base": 16 },
+  { "name": "Timemore Nano / Plus", "unit": "Klik", "base": 16 },
+  { "name": "Timemore S3", "unit": "Angka", "base": 6 },
+  { "name": "Timemore Slim Plus", "unit": "Klik", "base": 18 },
+  { "name": "Timemore x Millab M01", "unit": "Klik", "base": 7 },
+  { "name": "Varia Hand Grinder", "unit": "Klik", "base": 73 },
+  { "name": "Vesper VS-3 FOLD", "unit": "Klik", "base": 63 },
+  { "name": "Wacaco Exagrind", "unit": "Putaran", "base": 1 }
+];
+
+// 3. DATABASE MERK AIR (TDS RATA-RATA YANG DIPAKAI BARISTA INDONESIA)
+// tier menentukan logika koreksi: "Murni" (TDS sangat rendah/demineral) | "Seimbang" (TDS sweet-spot SCA) | "Tinggi" (TDS di atas sweet-spot)
+// Angka tds bersifat ESTIMASI rata-rata pasaran (bisa berbeda per batch/sumber mata air) — untuk hasil presisi, tetap dianjurkan ukur sendiri pakai TDS meter.
+const dbAir = [
+  { "name": "Aqua", "tds": 150, "tier": "Seimbang", "catatan": "TDS paling dekat dengan sweet-spot SCA (150 ppm) — pilihan paling aman & netral, jarang perlu dikoreksi." },
+  { "name": "Le Minerale", "tds": 220, "tier": "Tinggi", "catatan": "Mineral alami lebih tinggi dari rata-rata — ekstraksi lebih cepat jenuh, body terasa lebih bold/tebal." },
+  { "name": "Vit", "tds": 90, "tier": "Seimbang", "catatan": "Mineral ringan-menengah, masih dalam rentang ideal SCA — karakter bersih dengan body sedang." },
+  { "name": "Nestlé Pure Life", "tds": 60, "tier": "Seimbang", "catatan": "Mineral rendah-menengah, mendekati batas bawah rentang ideal — rasa cenderung lebih ringan & cerah." },
+  { "name": "Evian (Mata Air Pegunungan)", "tds": 345, "tier": "Tinggi", "catatan": "Mineral alami tinggi (kalsium & magnesium kuat) — sering dipakai kompetisi luar negeri, tapi di Indonesia tergolong premium/jarang." },
+  { "name": "Cleo / Air Demineral (RO)", "tds": 8, "tier": "Murni", "catatan": "Hampir tanpa mineral (air murni/RO) — ekstraksi cenderung datar & kurang 'membuka' rasa kalau tanpa koreksi suhu/gilingan." },
+  { "name": "Air Galon Isi Ulang / Keran Masak", "tds": 130, "tier": "Tinggi", "catatan": "TDS bervariasi liar tergantung sumber & belum tentu bebas klorin — anggap 'Tinggi' sebagai default aman, tapi idealnya ukur sendiri." }
+];
+
+// Catatan tambahan per tier untuk ditampilkan di hasil seduh
+const airTierNote = {
+  "Murni": "Air murni/demineral (TDS sangat rendah) tidak punya cukup mineral untuk 'menjemput' senyawa rasa dari kopi, jadi suhu dinaikkan sedikit & gilingan dihaluskan tipis untuk membantu ekstraksi.",
+  "Seimbang": "TDS berada di rentang ideal SCA (75-250 ppm) — air ini sudah cukup membantu ekstraksi tanpa perlu koreksi tambahan.",
+  "Tinggi": "Mineral berlebih mempercepat pelarutan rasa, rawan over-extract & pahit — suhu diturunkan sedikit & gilingan dikasarkan tipis sebagai penyeimbang."
+};
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const hiddenInput   = document.getElementById('gramasi');
+    const presetBtns    = document.querySelectorAll('.gramasi-chip[data-gram]');
+    const customToggle  = document.getElementById('gramasiCustomToggle');
+    const customRow     = document.getElementById('gramasiCustomRow');
+    const customInput   = document.getElementById('gramasiCustomInput');
+    const customCancel  = document.getElementById('gramasiCustomCancel');
+    const hintEl        = document.getElementById('gramasiHint');
+
+    function setActivePreset(btn) {
+        presetBtns.forEach(b => b.classList.remove('active'));
+        customToggle.classList.remove('active');
+        if (btn) btn.classList.add('active');
+    }
+
+    function updateHint(gram) {
+        const air = gram * 15;
+        hintEl.textContent = `${gram}g kopi → ${air} ml air (rasio 1:15) — estimasi yield ±${air - gram * 2} ml.`;
+    }
+
+    // Preset chip click
+    presetBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const gram = parseFloat(this.dataset.gram);
+            hiddenInput.value = gram;
+            setActivePreset(this);
+            customRow.style.display = 'none';
+            customInput.value = '';
+            updateHint(gram);
+        });
+    });
+
+    // Toggle custom input
+    customToggle.addEventListener('click', function() {
+        const isOpen = customRow.style.display !== 'none';
+        if (isOpen) {
+            customRow.style.display = 'none';
+            customToggle.classList.remove('active');
+            // Restore last preset or default 15
+            const gram = parseFloat(hiddenInput.value) || 15;
+            const matchingBtn = document.querySelector(`.gramasi-chip[data-gram="${gram}"]`);
+            if (matchingBtn) setActivePreset(matchingBtn);
+            else { presetBtns.forEach(b => b.classList.remove('active')); }
+        } else {
+            customRow.style.display = 'flex';
+            customToggle.classList.add('active');
+            presetBtns.forEach(b => b.classList.remove('active'));
+            customInput.focus();
+        }
+    });
+
+    // Cancel custom
+    customCancel.addEventListener('click', function() {
+        customRow.style.display = 'none';
+        customInput.value = '';
+        customToggle.classList.remove('active');
+        const gram = parseFloat(hiddenInput.value) || 15;
+        const matchingBtn = document.querySelector(`.gramasi-chip[data-gram="${gram}"]`);
+        if (matchingBtn) setActivePreset(matchingBtn);
+        updateHint(gram);
+    });
+
+    // Live update from custom input
+    customInput.addEventListener('input', function() {
+        const val = parseFloat(this.value);
+        if (val >= 5 && val <= 60) {
+            hiddenInput.value = val;
+            updateHint(val);
+        }
+    });
+
+    // Initial hint
+    updateHint(parseFloat(hiddenInput.value) || 15);
+});
+
+// =========================================================
+// SAFE STORAGE HELPERS — localStorage bisa throw error di Safari iOS
+// Private Browsing Mode atau beberapa Android WebView yang membatasi
+// storage. Tanpa pembungkus ini, error tsb akan menghentikan seluruh
+// fungsi di tengah jalan (mis. _doCompute berhenti sebelum sempat
+// menghitung resep), membuat app terlihat "macet" di layar loading.
+// =========================================================
+function safeGetItem(key) {
+    try {
+        return localStorage.getItem(key);
+    } catch (e) {
+        return null;
+    }
+}
+
+function safeSetItem(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        // Diam-diam dilewati — preferensi user cukup tidak tersimpan,
+        // bukan alasan untuk menggagalkan perhitungan resep.
+    }
+}
+
+// INJEKSI DATA KE DROPDOWN SAAT LOAD
+// FIX: dulu pakai window.onload (nunggu SEMUA resource selesai, termasuk
+// Google Fonts eksternal). Di iOS, kalau font gagal/lambat load (koneksi
+// lemah, dibuka sebagai file lokal, dsb.), event 'load' bisa telat banget
+// atau nggak pernah kepicu — akibatnya dropdown Dripper/Grinder/Air Seduh
+// tetap kosong ("Tidak Ada Pilihan") walau HTML-nya sendiri sudah siap.
+// DOMContentLoaded hanya nunggu HTML+DOM siap, jadi jauh lebih cepat & stabil.
+document.addEventListener('DOMContentLoaded', function() {
+    const dripperSelect = document.getElementById('dripper');
+    // FIX: placeholder biar nggak diam-diam ke-default ke opsi pertama tanpa user sadar
+    const dripperPlaceholder = document.createElement('option');
+    dripperPlaceholder.value = "";
+    dripperPlaceholder.disabled = true;
+    dripperPlaceholder.selected = true;
+    dripperPlaceholder.innerHTML = "-- Pilih Alat Seduh --";
+    dripperSelect.appendChild(dripperPlaceholder);
+    dbDripper.forEach(d => {
+        let opt = document.createElement('option');
+        opt.value = d.name;
+        opt.innerHTML = `${d.name} — ${d.type}`;
+        dripperSelect.appendChild(opt);
+    });
+
+    // LIVE PREVIEW: update hint text saat user memilih dripper, sebelum klik generate
+    dripperSelect.addEventListener('change', function() {
+        const picked = dbDripper.find(d => d.name === this.value);
+        const hintEl = document.getElementById('dripperHint');
+        if (picked) {
+            hintEl.textContent = `Kategori ${picked.category} — ${dripperCategoryNote[picked.category]}`;
+        } else {
+            hintEl.textContent = "Bentuk dasar dripper menentukan struktur tuangan yang direkomendasikan.";
+        }
+    });
+
+    const grinderSelect = document.getElementById('grinder');
+    // FIX: placeholder biar nggak diam-diam ke-default ke opsi pertama tanpa user sadar
+    const grinderPlaceholder = document.createElement('option');
+    grinderPlaceholder.value = "";
+    grinderPlaceholder.disabled = true;
+    grinderPlaceholder.selected = true;
+    grinderPlaceholder.innerHTML = "-- Pilih Alat Giling --";
+    grinderSelect.appendChild(grinderPlaceholder);
+    dbGrinder.forEach(g => {
+        let opt = document.createElement('option');
+        opt.value = g.name;
+        opt.innerHTML = `${g.name} (${g.unit})`;
+        grinderSelect.appendChild(opt);
+    });
+
+    const airSelect = document.getElementById('airMerk');
+    // FIX: placeholder biar nggak diam-diam ke-default ke opsi pertama tanpa user sadar
+    const airPlaceholder = document.createElement('option');
+    airPlaceholder.value = "";
+    airPlaceholder.disabled = true;
+    airPlaceholder.selected = true;
+    airPlaceholder.innerHTML = "-- Pilih Merk Air --";
+    airSelect.appendChild(airPlaceholder);
+    dbAir.forEach(a => {
+        let opt = document.createElement('option');
+        opt.value = a.name;
+        opt.innerHTML = `${a.name} — ±${a.tds} ppm`;
+        airSelect.appendChild(opt);
+    });
+
+    // LIVE PREVIEW: update hint text saat user memilih merk air, sebelum klik generate
+    airSelect.addEventListener('change', function() {
+        const picked = dbAir.find(a => a.name === this.value);
+        const hintEl = document.getElementById('airMerkHint');
+        if (picked) {
+            hintEl.textContent = `±${picked.tds} ppm (estimasi) — ${picked.catatan}`;
+        } else {
+            hintEl.textContent = "Kandungan mineral (TDS) air menentukan seberapa maksimal ekstraksi rasa kopi — bukan cuma soal biji & alat.";
+        }
+    });
+
+    // LOAD DARI LOCAL STORAGE JIKA ADA
+    if(safeGetItem('sikobar_gramasi')) {
+        const savedGram = safeGetItem('sikobar_gramasi');
+        document.getElementById('gramasi').value = savedGram;
+        document.getElementById('origin').value = safeGetItem('sikobar_origin') || "";
+        document.getElementById('acidity').value = safeGetItem('sikobar_acidity') || "";
+        document.getElementById('pascapanen').value = safeGetItem('sikobar_pascapanen');
+        document.getElementById('dripper').value = safeGetItem('sikobar_dripper') || "";
+        document.getElementById('grinder').value = safeGetItem('sikobar_grinder');
+        document.getElementById('rasa').value = safeGetItem('sikobar_rasa');
+        document.getElementById('airMerk').value = safeGetItem('sikobar_airMerk') || "";
+        // Re-activate chip if matches a preset, else show custom input
+        const matchingChip = document.querySelector(`.gramasi-chip[data-gram="${savedGram}"]`);
+        if (matchingChip) {
+            document.querySelectorAll('.gramasi-chip[data-gram]').forEach(b => b.classList.remove('active'));
+            document.getElementById('gramasiCustomToggle').classList.remove('active');
+            matchingChip.classList.add('active');
+        } else {
+            document.querySelectorAll('.gramasi-chip[data-gram]').forEach(b => b.classList.remove('active'));
+            document.getElementById('gramasiCustomToggle').classList.add('active');
+            const customRow = document.getElementById('gramasiCustomRow');
+            const customInput = document.getElementById('gramasiCustomInput');
+            customRow.style.display = 'flex';
+            customInput.value = savedGram;
+        }
+        const gram = parseFloat(savedGram);
+        if (!isNaN(gram)) {
+            const air = gram * 15;
+            document.getElementById('gramasiHint').textContent = `${gram}g kopi → ${air} ml air (rasio 1:15) — estimasi yield ±${air - gram * 2} ml.`;
+        }
+        // Re-trigger live hint air kalau ada pilihan tersimpan
+        const savedAirName = safeGetItem('sikobar_airMerk');
+        if (savedAirName) {
+            const savedAirData = dbAir.find(a => a.name === savedAirName);
+            if (savedAirData) {
+                document.getElementById('airMerkHint').textContent = `±${savedAirData.tds} ppm (estimasi) — ${savedAirData.catatan}`;
+            }
+        }
+    }
+});
+
+// =========================================================
+// LOADING TYPEWRITER — animated brew messages
+// =========================================================
+const loadingPhrases = [
+    "Menimbang gramasi kopi…",
+    "Memetakan karakter biji…",
+    "Menghitung rasio 1:15…",
+    "Menyesuaikan suhu air…",
+    "Mengkalibrasi setelan grinder…",
+    "Membangun struktur 4:6…",
+    "Memfinalisasi matriks tuangan…",
+    "Hampir selesai, sabar ya…",
+];
+
+let typewriterTimer = null;
+let typewriterDone = false;
+
+function startLoadingUI() {
+    // Hentikan timer seduh sesi sebelumnya (kalau ada) agar tidak nyangkut di background
+    clearInterval(brewTimerInterval);
+    brewTimerInterval = null;
+    brewIsRunning = false;
+
+    const btn = document.getElementById('generateBtn');
+    const overlay = document.getElementById('loadingOverlay');
+    const empty = document.getElementById('readoutEmpty');
+    const result = document.getElementById('resultCard');
+    const textEl = document.getElementById('loadingTypeText');
+
+    btn.classList.add('is-loading');
+    btn.disabled = true;
+    overlay.classList.add('visible');
+    empty.style.display = 'none';
+    result.style.display = 'none';
+    textEl.innerHTML = '';
+    typewriterDone = false;
+
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let cursor = '<span class="loading-cursor"></span>';
+
+    function typeChar() {
+        if (typewriterDone) return;
+        const phrase = loadingPhrases[phraseIdx % loadingPhrases.length];
+        if (charIdx <= phrase.length) {
+            textEl.innerHTML = phrase.slice(0, charIdx) + cursor;
+            charIdx++;
+            typewriterTimer = setTimeout(typeChar, 38);
+        } else {
+            // Pause at end of phrase then move to next
+            typewriterTimer = setTimeout(() => {
+                phraseIdx++;
+                charIdx = 0;
+                typeChar();
+            }, 820);
+        }
+    }
+    typeChar();
+}
+
+function stopLoadingUI() {
+    const btn = document.getElementById('generateBtn');
+    const overlay = document.getElementById('loadingOverlay');
+
+    typewriterDone = true;
+    clearTimeout(typewriterTimer);
+
+    btn.classList.remove('is-loading');
+    btn.disabled = false;
+    overlay.classList.remove('visible');
+}
+
+// LOGIKA UTAMA SIKOBAR MATRIKS UNDER THE HOOD
+function generateResep() {
+    const gram = parseFloat(document.getElementById('gramasi').value);
+    const originName = document.getElementById('origin').value.trim();
+    const acidityLevel = document.getElementById('acidity').value;
+    const proses = document.getElementById('pascapanen').value;
+    const dripperName = document.getElementById('dripper').value;
+    const grinderName = document.getElementById('grinder').value;
+    const targetRasa = document.getElementById('rasa').value;
+    const airMerkName = document.getElementById('airMerk').value;
+
+    // FIX: validasi gramasi custom — harus dalam rentang wajar
+    if (isNaN(gram) || gram < 5 || gram > 60) {
+        alert("Masukkan gramasi kopi antara 5–60 gram ya.");
+        return;
+    }
+
+    // FIX: cegah crash kalau placeholder "-- Pilih ... --" belum diganti user
+    // Asal Daerah bersifat opsional (free-text catatan), jadi tidak ikut divalidasi wajib.
+    if (!acidityLevel || !dripperName || !grinderName || !airMerkName) {
+        alert("Mohon pilih Tingkat Keasaman, Alat Seduh, Alat Giling, dan Merk Air dulu, ya.");
+        return;
+    }
+
+    // Mulai animasi loading typewriter
+    startLoadingUI();
+
+    // Delay komputasi 1.8 detik agar loading terasa nyata & dramatis
+    setTimeout(function() {
+        _doCompute(gram, originName, acidityLevel, proses, dripperName, grinderName, targetRasa, airMerkName);
+    }, 1800);
+}
+
+function _doCompute(gram, originName, acidityLevel, proses, dripperName, grinderName, targetRasa, airMerkName) {
+
+    // SIMPAN PILIHAN USER KE LOCAL STORAGE
+    safeSetItem('sikobar_gramasi', gram);
+    safeSetItem('sikobar_origin', originName);
+    safeSetItem('sikobar_acidity', acidityLevel);
+    safeSetItem('sikobar_pascapanen', proses);
+    safeSetItem('sikobar_dripper', dripperName);
+    safeSetItem('sikobar_grinder', grinderName);
+    safeSetItem('sikobar_rasa', targetRasa);
+    safeSetItem('sikobar_airMerk', airMerkName);
+
+    // 1. Hitung Air & Yield (Rumus Retensi Air Konstan Arabika = 2x Gram Kopi)
+    const totalAir = gram * 15;
+    const yieldOutput = totalAir - (gram * 2);
+
+    // 2. Ambil Data Karakter dari Database
+    // FIX: acidity sekarang input manual user (dropdown), bukan lagi lookup dari nama daerah.
+    const dataGrinder = dbGrinder.find(g => g.name === grinderName);
+    const dataDripper = dbDripper.find(d => d.name === dripperName);
+    const dataAir = dbAir.find(a => a.name === airMerkName);
+
+    // 3. Logika AI Governor Koreksi Klik Grinder (Pembulatan Tanpa Koma)
+    // FIX: "Putaran" & "Nomor" dulu kelewat dari daftar ini jadi nggak pernah dikoreksi.
+    let finalKlik = dataGrinder.base;
+    if (["Klik", "Setting", "Angka", "Mayor", "Mark", "Notch", "Putaran", "Nomor"].includes(dataGrinder.unit)) {
+        if (acidityLevel === "Low" && proses === "Semi Wash" && targetRasa === "More Sweet") {
+            finalKlik = Math.round(dataGrinder.base - 2);
+        } else if (acidityLevel === "High" && proses === "Full Wash" && targetRasa === "More Acid") {
+            finalKlik = Math.round(dataGrinder.base + 2);
+        } else if (targetRasa === "More Sweet") {
+            finalKlik = Math.round(dataGrinder.base - 1);
+        } else if (targetRasa === "More Acid") {
+            finalKlik = Math.round(dataGrinder.base + 1);
+        }
+        // Koreksi tambahan berbasis bentuk fisik dripper:
+        // Cone (flow cepat & terkonsentrasi) -> gilingan sedikit lebih kasar agar tidak over-extract.
+        // Flat Bottom (ekstraksi merata/lambat) -> dibiarkan netral, tidak dikoreksi tambahan.
+        if (dataDripper.category === "Cone") {
+            finalKlik = Math.round(finalKlik + 1);
+        }
+        // Koreksi tambahan berbasis tier TDS merk air:
+        // Murni (hampir tanpa mineral) -> gilingan dihaluskan tipis, mineral yang minim butuh kontak lebih lama untuk "membuka" rasa.
+        // Tinggi (mineral berlebih) -> gilingan dikasarkan tipis, mineral ekstra mempercepat pelarutan jadi perlu diimbangi.
+        // Seimbang (sweet-spot SCA) -> dibiarkan netral, tidak dikoreksi tambahan.
+        if (dataAir.tier === "Murni") {
+            finalKlik = Math.round(finalKlik - 1);
+        } else if (dataAir.tier === "Tinggi") {
+            finalKlik = Math.round(finalKlik + 1);
+        }
+        // FIX: jaga-jaga biar nggak pernah tampil 0/minus, terutama grinder satuan
+        // "Putaran" yang base-nya kecil (1-3) dan rawan negatif kalau kena koreksi -2.
+        finalKlik = Math.max(1, finalKlik);
+    }
+
+    // 4. Logika Penentuan Suhu Air Terkait Biji Kopi & Target Rasa (Thermodynamics)
+    // FIX: nilai awal 92 dihapus karena nggak pernah kepake (3 cabang di bawah selalu nimpa duluan)
+    let rekomendasiSuhu;
+    if (targetRasa === "More Acid") {
+        rekomendasiSuhu = 90; // Suhu lebih rendah untuk menahan pahit dan mengunci acidity cerah
+        if (acidityLevel === "High") {
+            rekomendasiSuhu = 91; // Kompensasi thermal untuk biji yang sangat padat/keras (dense bean)
+        }
+    } else if (targetRasa === "More Sweet") {
+        rekomendasiSuhu = 93; // Suhu lebih tinggi untuk memaksimalkan pelarutan senyawa gula & karamel
+        if (proses === "Semi Wash") {
+            rekomendasiSuhu = 89; // Pengecualian: Biji semi wash/wet hulled rapuh, turunkan suhu agar tidak over-extract pahit kayu
+        }
+    } else {
+        // Profil Balanced
+        if (acidityLevel === "High") {
+            rekomendasiSuhu = 93;
+        } else {
+            rekomendasiSuhu = 91;
+        }
+    }
+
+    // Koreksi tambahan berbasis bentuk fisik dripper:
+    // Cone -> ekstraksi cepat & terkonsentrasi, suhu diturunkan sedikit agar tidak over-extract.
+    // Flat Bottom -> ekstraksi merata/lambat, suhu dinaikkan sedikit untuk bantu kelarutan.
+    // Immersion & Gravity -> dibiarkan netral, karakter ekstraksinya ditentukan via durasi rendam, bukan suhu.
+    if (dataDripper.category === "Cone") {
+        rekomendasiSuhu = rekomendasiSuhu - 1;
+    } else if (dataDripper.category === "Flat Bottom") {
+        rekomendasiSuhu = rekomendasiSuhu + 1;
+    }
+    // Koreksi tambahan berbasis tier TDS merk air:
+    // Murni (hampir tanpa mineral) -> suhu dinaikkan sedikit, karena tidak ada mineral yang bantu "menjemput" rasa di suhu standar.
+    // Tinggi (mineral berlebih) -> suhu diturunkan sedikit, agar ekstraksi yang sudah dipercepat mineral tidak kebablasan pahit.
+    // Seimbang (sweet-spot SCA) -> dibiarkan netral, tidak dikoreksi tambahan.
+    if (dataAir.tier === "Murni") {
+        rekomendasiSuhu = rekomendasiSuhu + 1;
+    } else if (dataAir.tier === "Tinggi") {
+        rekomendasiSuhu = rekomendasiSuhu - 1;
+    }
+    // FIX: clamp biar suhu tidak pernah keluar dari rentang brewing wajar (88-96°C)
+    // meski terkena dua koreksi sekaligus (mis. More Acid + High acidity + Cone) ditambah koreksi tier air.
+    rekomendasiSuhu = Math.min(96, Math.max(88, rekomendasiSuhu));
+
+    // Tampilkan Hasil Ringkasan Utama ke Layar
+    document.getElementById('outTotalAir').innerHTML = `${totalAir}<span class="unit">ml</span>`;
+    document.getElementById('outYield').innerHTML = `±${yieldOutput}<span class="unit">ml</span>`;
+    document.getElementById('outGrinder').innerHTML = `${finalKlik}<span class="unit">${dataGrinder.unit}</span>`;
+    document.getElementById('outSuhu').innerHTML = `${rekomendasiSuhu}<span class="unit">°C</span>`;
+
+    // 5. Logika Pembagian Air Metode 4:6 Tetsu Kasuya Penuh
+    // FIX: faseBody dihitung sebagai SISA dari faseRasa (bukan dihitung independen),
+    // biar faseRasa + faseBody selalu pas sama totalAir, nggak meleset gara-gara pembulatan.
+    const faseRasa = Math.round(totalAir * 0.4); // 40% Tahap Awal
+    const faseBody = totalAir - faseRasa; // 60% Tahap Akhir (sisa, dijamin presisi)
+
+    let stepsData = [];
+    let lastTime = "03:00"; // dipakai untuk label penutup timeline
+
+    if (dataDripper.category === "Immersion") {
+        // --- STRUKTUR KHUSUS IMMERSION (Clever Dripper, Hario Switch) ---
+        // Prinsip rendam-tahan-lepas tidak relevan dipaksa ke pulse-pour 4:6 bertahap,
+        // jadi seluruh air dibagi 2 tahap besar: bloom singkat, lalu isi penuh & tahan.
+        // Rasio 40:60 filosofi 4:6 tetap dipertahankan, hanya teknik eksekusinya berbeda.
+        const volBloom = Math.round(totalAir * 0.15);
+        const volIsi = totalAir - volBloom; // sisa, dijamin presisi totalnya pas = totalAir
+
+        let durasiTahan = 150; // detik, default Medium
+        let noteTahan = "Tutup katup/switch, biarkan kopi terendam penuh sebelum dilepas ke server.";
+        if (proses === "Semi Wash" || proses === "Natural") {
+            durasiTahan = 180;
+            noteTahan = "Biji semi wash/natural butuh waktu rendam lebih lama agar body & manisnya keluar maksimal.";
+        } else if (proses === "Full Wash" && targetRasa === "More Acid") {
+            durasiTahan = 120;
+            noteTahan = "Rendam dipersingkat agar acidity tetap cerah dan tidak over-extract.";
+        }
+        const menit = Math.floor(durasiTahan / 60);
+        const detik = String(durasiTahan % 60).padStart(2, "0");
+
+        stepsData.push({ time: "00:00", label: "Blooming", desc: "Tuang air secukupnya untuk membasahi seluruh bubuk kopi secara merata, biarkan gas CO2 keluar.", amount: volBloom });
+        stepsData.push({ time: "00:30", label: "Isi Penuh & Tahan", desc: noteTahan, amount: volIsi });
+        stepsData.push({ time: `0${menit}:${detik}`, label: "Lepas Katup (Drain)", desc: "Buka switch/katup, biarkan seluruh cairan turun bebas ke server tanpa diaduk.", amount: 0 });
+
+        lastTime = `0${menit}:${detik} (drain)`;
+    } else {
+        // --- FASE 1: RASA (40% PERTAMA - DIPIPIT DALAM 2 INTERVAL, PULSE-POUR) ---
+        let t1, t2, noteT1, noteT2;
+
+        if (targetRasa === "More Sweet") {
+            t1 = Math.round(faseRasa * 0.35);
+            t2 = faseRasa - t1; // FIX: sisa, biar t1+t2 selalu pas = faseRasa
+            noteT1 = "Blooming diperkecil untuk memicu pelepasan senyawa manis karamel lebih awal.";
+            noteT2 = "Tuangan kedua lebih besar untuk mengekstrak sisa kemanisan secara intens.";
+        } else if (targetRasa === "More Acid") {
+            t1 = Math.round(faseRasa * 0.65);
+            t2 = faseRasa - t1; // FIX: sisa, biar t1+t2 selalu pas = faseRasa
+            noteT1 = "Blooming diperbesar untuk memaksimalkan ekstraksi asam buah (acidity) yang segar.";
+            noteT2 = "Tuangan kedua diperkecil sebagai penyeimbang fase keasaman.";
+        } else { // Balanced
+            t1 = Math.round(faseRasa * 0.5);
+            t2 = faseRasa - t1; // FIX: sisa, biar t1+t2 selalu pas = faseRasa
+            noteT1 = "Blooming standar demi menjaga rasio komponen asam buah seimbang.";
+            noteT2 = "Tuangan kedua dengan volume yang sama untuk menjaga kestabilan rasa.";
+        }
+
+        stepsData.push({ time: "00:00", label: "Blooming", desc: noteT1, amount: t1 });
+        stepsData.push({ time: "00:45", label: "Tuangan 2", desc: noteT2, amount: t2 });
+
+        // --- FASE 2: BODY / KEKENTALAN (60% KEDUA - DINAMIS AUTOMATIC) ---
+        let targetBody = "Medium";
+        if (proses === "Semi Wash" || proses === "Natural") {
+            targetBody = "Heavy";
+        } else if (proses === "Full Wash" && targetRasa === "More Acid") {
+            targetBody = "Light";
+        }
+
+        if (targetBody === "Light") {
+            const t3 = faseBody; // sudah pasti integer (sisa dari faseRasa), tanpa perlu dibulatkan lagi
+            stepsData.push({
+                time: "01:30",
+                label: "Tuangan 3",
+                desc: "Fase 60% Body Ringan (Light). Air dituang sekaligus secara konstan untuk hasil akhir yang super bersih (clean cup) menyerupai teh.",
+                amount: t3
+            });
+            lastTime = "01:30";
+        }
+        else if (targetBody === "Heavy") {
+            const porsi1 = Math.round(faseBody / 3);
+            const porsi2 = Math.round(faseBody / 3);
+            const porsi3 = faseBody - porsi1 - porsi2; // FIX: sisa, biar 3 tuangan totalnya selalu pas = faseBody
+            stepsData.push({ time: "01:30", label: "Tuangan 3", desc: "Fase 60% Body Tebal (Heavy). Tuangan pertama untuk menaikkan ketebalan cairan.", amount: porsi1 });
+            stepsData.push({ time: "02:15", label: "Tuangan 4", desc: "Menjaga turbulensi dan suhu ekstraksi tetap tinggi di dalam bed kopi.", amount: porsi2 });
+            stepsData.push({ time: "03:00", label: "Tuangan 5", desc: "Tuangan terakhir untuk mengunci ketebalan rasa yang bold dan bulat di mulut.", amount: porsi3 });
+            lastTime = "03:00";
+        }
+        else {
+            const porsi1 = Math.round(faseBody / 2);
+            const porsi2 = faseBody - porsi1; // FIX: sisa, biar 2 tuangan totalnya selalu pas = faseBody
+            stepsData.push({ time: "01:30", label: "Tuangan 3", desc: "Fase 60% Body Seimbang (Medium). Mengatur bobot kekentalan kopi agar proporsional.", amount: porsi1 });
+            stepsData.push({ time: "02:15", label: "Tuangan 4", desc: "Tuangan akhir, biarkan seluruh air turun habis ke server.", amount: porsi2 });
+            lastTime = "02:15";
+        }
+    }
+
+    // --- RENDER POUR TIMELINE (signature element: rel volume tiap tuangan) ---
+    // Step dengan amount 0 (mis. "Lepas Katup" pada Immersion) adalah aksi tanpa tuangan air baru,
+    // jadi dilewati dari rail supaya proporsi visual tetap akurat terhadap totalAir.
+    const rail = document.getElementById('timelineRail');
+    rail.innerHTML = "";
+    stepsData.forEach(s => {
+        if (s.amount <= 0) return;
+        const seg = document.createElement('div');
+        seg.className = 'timeline-segment';
+        seg.style.width = `${(s.amount / totalAir) * 100}%`;
+        seg.title = `${s.label}: +${s.amount} ml`;
+        rail.appendChild(seg);
+    });
+    // Suffix "+" menandakan estimasi durasi total brewing (pour-over biasa masih ada waktu turun/drawdown
+    // setelah tuangan terakhir). Immersion sudah eksplisit menyebut titik drain, jadi tidak perlu suffix.
+    const endSuffix = (dataDripper.category === "Immersion") ? "" : "+";
+    document.getElementById('timelineEnd').textContent = lastTime + endSuffix;
+
+    // --- RENDER DAFTAR LANGKAH KE COMPONENT UI ---
+    // FIX: setiap tuangan langsung mentotalkan otomatis dari ml air pertama ke tahap
+    // selanjutnya (running total), tanpa perlu dihitung manual oleh user.
+    const stepList = document.getElementById('stepList');
+    stepList.innerHTML = "";
+
+    let runningTotal = 0;
+    stepsData.forEach((s, index) => {
+        if (s.amount > 0) runningTotal += s.amount;
+        s._cumulative = runningTotal; // simpan total kumulatif di titik ini untuk dipakai timer
+
+        const li = document.createElement('li');
+        li.className = 'step-item';
+        li.dataset.stepIndex = index;
+        li.dataset.timeSeconds = timeLabelToSeconds(s.time);
+        li.dataset.cumulative = runningTotal;
+
+        const amountBadge = s.amount > 0
+            ? `<span class="step-amount-add">+${s.amount} ml</span><span class="step-amount-total">Total ${runningTotal} ml</span>`
+            : `<span class="step-amount-add">Buka Katup</span><span class="step-amount-total">Total ${runningTotal} ml</span>`;
+
+        li.innerHTML = `
+            <span class="step-marker">${index + 1}</span>
+            <div class="step-body">
+                <div class="step-label">${s.label} <span class="step-time">${s.time}</span></div>
+                <div class="step-desc">${s.desc}</div>
+            </div>
+            <span class="step-amount">${amountBadge}</span>
+        `;
+        stepList.appendChild(li);
+    });
+
+    // Simpan data langkah untuk dipakai mesin timer brewing otomatis
+    window._sikobarSteps = stepsData;
+    resetBrewTimer();
+
+    // --- TAMPILKAN CATATAN KATEGORI DRIPPER ---
+    const dripperNoteEl = document.getElementById('dripperCategoryNote');
+    const dripperNoteBox = document.getElementById('dripperNoteBox');
+    const dripperIconEl = document.getElementById('dripperNoteIcon');
+    const dripperLabelEl = document.getElementById('dripperCategoryLabel');
+
+    const categoryMeta = {
+      "Cone":       { icon: "🔺", label: "Kategori · Cone" },
+      "Flat Bottom":{ icon: "⬛", label: "Kategori · Flat Bottom" },
+      "Immersion":  { icon: "💧", label: "Kategori · Immersion" },
+      "Gravity":    { icon: "⬇️", label: "Kategori · Gravity" }
+    };
+
+    dripperNoteEl.textContent = dripperCategoryNote[dataDripper.category];
+    dripperNoteBox.dataset.category = dataDripper.category;
+    const meta = categoryMeta[dataDripper.category] || { icon: "☕", label: "Kategori" };
+    dripperIconEl.textContent = meta.icon;
+    dripperLabelEl.textContent = meta.label;
+
+    // --- TAMPILKAN CATATAN MERK AIR ---
+    const airNoteBox = document.getElementById('airNoteBox');
+    const airIconEl = document.getElementById('airNoteIcon');
+    const airLabelEl = document.getElementById('airNoteLabel');
+    const airTextEl = document.getElementById('airNoteText');
+
+    const waterTierMeta = {
+      "Murni":    { icon: "💎", label: `Air ${dataAir.name} · ±${dataAir.tds} ppm · TDS Murni` },
+      "Seimbang": { icon: "💧", label: `Air ${dataAir.name} · ±${dataAir.tds} ppm · TDS Seimbang` },
+      "Tinggi":   { icon: "🪨", label: `Air ${dataAir.name} · ±${dataAir.tds} ppm · TDS Tinggi` }
+    };
+
+    airTextEl.textContent = `${dataAir.catatan} ${airTierNote[dataAir.tier]}`;
+    airNoteBox.dataset.watertier = dataAir.tier;
+    const waterMeta = waterTierMeta[dataAir.tier] || { icon: "💧", label: `Air ${dataAir.name}` };
+    airIconEl.textContent = waterMeta.icon;
+    airLabelEl.textContent = waterMeta.label;
+
+    // Tampilkan Card Hasil ke Layar
+    stopLoadingUI();
+    document.getElementById('readoutEmpty').style.display = "none";
+    document.getElementById('resultCard').style.display = "block";
+}
+
+// ============================================================
+// MESIN TIMER SEDUH OTOMATIS
+// Prinsip: begitu tuangan pertama dimulai (tekan Mulai Seduh),
+// jam mulai berjalan. Setiap detik dicek terhadap waktu target
+// tiap langkah (s.time) — begitu waktu tercapai, langkah itu
+// otomatis "aktif" lalu "selesai", dan total ml air yang sudah
+// dituang (running total) otomatis ter-update tanpa input manual.
+// ============================================================
+
+let brewTimerInterval = null;
+let brewElapsedSeconds = 0;
+let brewIsRunning = false;
+
+function timeLabelToSeconds(label) {
+    // Terima format "MM:SS" (drain immersion punya suffix " (drain)" — dibersihkan dulu)
+    const clean = String(label).replace(/[^\d:]/g, "");
+    const parts = clean.split(":").map(n => parseInt(n, 10) || 0);
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    return 0;
+}
+
+function formatClock(totalSeconds) {
+    const m = Math.floor(totalSeconds / 60);
+    const s = totalSeconds % 60;
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function resetBrewTimer() {
+    clearInterval(brewTimerInterval);
+    brewTimerInterval = null;
+    brewElapsedSeconds = 0;
+    brewIsRunning = false;
+
+    const btn = document.getElementById('brewTimerBtn');
+    const btnLabel = document.getElementById('brewTimerBtnLabel');
+    const clockEl = document.getElementById('brewClock');
+    const subEl = document.getElementById('brewSub');
+    const pouredEl = document.getElementById('brewPoured');
+    if (!btn) return;
+
+    btn.classList.remove('is-running', 'is-done');
+    btnLabel.textContent = "▶ Mulai Seduh";
+    clockEl.textContent = "00:00";
+    subEl.textContent = "Tekan mulai saat tuangan pertama";
+    pouredEl.innerHTML = "Air dituang: <b>0</b> ml";
+
+    document.querySelectorAll('#stepList .step-item').forEach(li => {
+        li.classList.remove('is-active', 'is-done');
+    });
+}
+
+function toggleBrewTimer() {
+    if (!window._sikobarSteps || window._sikobarSteps.length === 0) return;
+
+    if (brewIsRunning) {
+        // Jeda timer
+        clearInterval(brewTimerInterval);
+        brewTimerInterval = null;
+        brewIsRunning = false;
+        document.getElementById('brewTimerBtn').classList.remove('is-running');
+        document.getElementById('brewTimerBtnLabel').textContent = "▶ Lanjutkan";
+        return;
+    }
+
+    brewIsRunning = true;
+    const btn = document.getElementById('brewTimerBtn');
+    btn.classList.remove('is-done');
+    btn.classList.add('is-running');
+    document.getElementById('brewTimerBtnLabel').textContent = "⏸ Jeda";
+    document.getElementById('brewSub').textContent = "Seduh berjalan…";
+
+    brewTimerInterval = setInterval(brewTick, 1000);
+    brewTick(); // jalankan sekali langsung agar step pertama (00:00) langsung aktif
+}
+
+function brewTick() {
+    const clockEl = document.getElementById('brewClock');
+    clockEl.textContent = formatClock(brewElapsedSeconds);
+
+    const steps = window._sikobarSteps;
+    const items = document.querySelectorAll('#stepList .step-item');
+    let cumulativeNow = 0;
+    let allDone = true;
+    let activeLabel = "";
+
+    items.forEach((li, index) => {
+        const targetSeconds = parseInt(li.dataset.timeSeconds, 10);
+        const stepCumulative = parseInt(li.dataset.cumulative, 10);
+
+        if (brewElapsedSeconds >= targetSeconds) {
+            // Langkah ini sudah tercapai waktunya -> tandai selesai & totalkan otomatis
+            li.classList.add('is-done');
+            li.classList.remove('is-active');
+            cumulativeNow = stepCumulative;
+        } else {
+            li.classList.remove('is-done');
+            allDone = false;
+            // Langkah pertama yang belum tercapai = langkah aktif berikutnya
+            if (!activeLabel) {
+                li.classList.add('is-active');
+                activeLabel = steps[index].label;
+            } else {
+                li.classList.remove('is-active');
+            }
+        }
+    });
+
+    document.getElementById('brewPoured').innerHTML = `Air dituang: <b>${cumulativeNow}</b> ml`;
+
+    const subEl = document.getElementById('brewSub');
+    if (allDone) {
+        clearInterval(brewTimerInterval);
+        brewTimerInterval = null;
+        brewIsRunning = false;
+        const btn = document.getElementById('brewTimerBtn');
+        btn.classList.remove('is-running');
+        btn.classList.add('is-done');
+        document.getElementById('brewTimerBtnLabel').textContent = "✓ Selesai";
+        subEl.textContent = "Seduhan selesai — selamat menikmati.";
+    } else {
+        subEl.textContent = `Tahap berjalan: ${activeLabel}`;
+    }
+
+    brewElapsedSeconds += 1;
+}
+</script>
+
+</body>
+</html>
